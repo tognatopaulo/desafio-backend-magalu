@@ -23,10 +23,16 @@ public class NotificationController {
 
     @GetMapping("{notificationId}")
     public ResponseEntity<?> getNotification(@PathVariable Long notificationId) {
-        var notification = notificationService.getNotification(notificationId);
+        var notification = notificationService.findById(notificationId);
         if (notification.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(notification.get());
+    }
+
+    @DeleteMapping("{notificationId}")
+    public ResponseEntity<Void> cancelNotification(@PathVariable Long notificationId) {
+        notificationService.cancelNotification(notificationId);
+        return ResponseEntity.noContent().build();
     }
 }
